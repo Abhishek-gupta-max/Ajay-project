@@ -1,9 +1,12 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { constructMetadata } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Privacy Policy | Aj Legal Consultant (I) Private Limited',
-  description: 'Privacy Policy for Aj Legal Consultant (I) Private Limited.',
-};
+export const metadata: Metadata = constructMetadata({
+  title: "Privacy Policy | AJ Legal Consultant (I) Private Limited",
+  description: "Official Privacy Policy for AJ Legal Consultant (I) Private Limited detailing how user information and client data are collected and protected.",
+  url: "/privacy-policy",
+});
 
 export default function PrivacyPolicyPage() {
   return (

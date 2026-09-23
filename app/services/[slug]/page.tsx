@@ -8,8 +8,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { constructMetadata } from '@/lib/seo';
 import { getServiceData } from '@/config/serviceData';
-
 import serviceData from '@/config/serviceData';
+import JsonLd from '@/components/seo/JsonLd';
+import { siteConfig } from '@/config/site';
 
 type Props = { params: { slug: string } };
 
@@ -19,12 +20,28 @@ export async function generateStaticParams() {
   }));
 }
 
+const customTitles: Record<string, string> = {
+  'private-limited-company': 'Private Limited Company Registration in India | AJ Legal Consultant',
+  'company-compliance': 'Company Annual Compliance & ROC Filing India | AJ Legal Consultant',
+  'business-compliance': 'Business Compliance Services in India | AJ Legal Consultant',
+  'gst-registration': 'GST Registration & Compliance India | AJ Legal Consultant',
+  'itr-filing': 'Income Tax Return (ITR) Filing India | AJ Legal Consultant',
+  'llp-registration': 'LLP Registration Services in India | AJ Legal Consultant',
+  'one-person-company': 'One Person Company (OPC) Registration India | AJ Legal Consultant',
+  'ra-license': 'RA Licence Registration in India | AJ Legal Consultant',
+  'fssai-registration': 'FSSAI Food License Registration India | AJ Legal Consultant',
+  'startup-india': 'Startup India DPIIT Recognition Consultancy | AJ Legal Consultant',
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = getServiceData(params.slug);
-  const title = data?.title ?? params.slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const defaultTitleName = data?.title ?? params.slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const pageTitle = customTitles[params.slug] || `${defaultTitleName} in India | AJ Legal Consultant`;
+  const pageDescription = data?.description ?? `Expert ${defaultTitleName} services in India — handled by qualified professionals. Fast, transparent, and 100% government-compliant.`;
+
   return constructMetadata({
-    title: `${title} in India`,
-    description: data?.description ?? `Expert ${title} services in India — handled by qualified professionals. Fast, transparent, and 100% government-compliant.`,
+    title: pageTitle,
+    description: pageDescription,
     url: `/services/${params.slug}`,
   });
 }
@@ -55,8 +72,61 @@ export default async function ServicePage({ params }: { params: { slug: string }
     { question: `What compliance is required after ${serviceName} is complete?`, answer: `After ${serviceName.toLowerCase()}, ongoing compliance includes annual ROC filings, GST return filing, income tax return, and director KYC. Aj Legal Consultant offers annual compliance packages to cover all these obligations.` },
   ];
 
+  const serviceSchemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": serviceName,
+      "serviceType": "Legal & Corporate Compliance",
+      "provider": {
+        "@type": "LegalService",
+        "name": "AJ Legal Consultant (I) Private Limited",
+        "url": siteConfig.url
+      },
+      "areaServed": "India",
+      "description": data?.description ?? `Expert ${serviceName} services in India — handled by qualified professionals.`
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": siteConfig.url
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": `${siteConfig.url}/services`
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": serviceName,
+          "item": `${siteConfig.url}/services/${params.slug}`
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    }
+  ];
+
   return (
     <div className="bg-slate-50 min-h-screen">
+      <JsonLd data={serviceSchemas} />
 
       {/* ── 1. Hero ── */}
       <section className="relative bg-[#1E4E8C] pt-28 pb-16 overflow-hidden">

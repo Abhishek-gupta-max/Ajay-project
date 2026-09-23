@@ -1,16 +1,16 @@
 export const siteConfig = {
-  name: "Aj Legal Consultant (I) Private Limited",
-  description: "Independent consultancy service provider offering professional assistance and documentation support for corporate compliance, licenses, and legal documentation.",
-  url: "https://www.ajaccountinggroup.com",
+  name: "AJ Legal Consultant (I) Private Limited",
+  description: "AJ Legal Consultant (I) Private Limited provides company registration, GST, ROC/MCA filing, income tax, trademark, FSSAI, RA licence and business compliance consultancy services across India.",
+  url: "https://ajlegalconsultant.in",
   contact: {
     email: "info@ajlegalconsultant.com",
-    phone: "9643862867",
-    address: "Office No G 16 Ground Floor Dharmpali Palace Bhoja Market Near Vinayak Hospital Sector 27 Noida, Bhoja Market, Noida, Uttar Pradesh 201301, IN"
+    phone: "+91 9643862867",
+    address: "G-16, Ground Floor, Dharmpali Palace, Sector-27, Noida, Uttar Pradesh 201301, IN"
   },
   links: {
     facebook: "#",
     twitter: "#",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/ajay-pandey-242355a5",
   }
 };
 

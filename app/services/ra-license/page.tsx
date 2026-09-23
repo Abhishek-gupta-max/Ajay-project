@@ -9,13 +9,55 @@ import {
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { constructMetadata } from '@/lib/seo';
+import JsonLd from '@/components/seo/JsonLd';
+import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = constructMetadata({
-  title: 'Recruiting Agent (RA) License Registration in India - MEA Approved',
+  title: 'RA Licence Registration in India | AJ Legal Consultant',
   description:
-    'Obtain your Overseas Recruitment Agent (RA) License under the Ministry of External Affairs with expert consultancy. 100% government-compliant registration, documentation, and liaison support.',
+    'Obtain your Overseas Recruitment Agent (RA) Licence under MEA with expert legal consultancy. 100% government-compliant registration, documentation & POE liaison.',
   url: '/services/ra-license',
 });
+
+const raLicenseSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Recruiting Agent (RA) License Registration",
+    "serviceType": "Legal & Government Licensing",
+    "provider": {
+      "@type": "LegalService",
+      "name": "AJ Legal Consultant (I) Private Limited",
+      "url": siteConfig.url
+    },
+    "areaServed": "India",
+    "description": "Obtain your Overseas Recruitment Agent (RA) Licence under MEA with expert legal consultancy. 100% government-compliant registration, documentation & POE liaison."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": siteConfig.url
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": `${siteConfig.url}/services`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "RA Licence Registration",
+        "item": `${siteConfig.url}/services/ra-license`
+      }
+    ]
+  }
+];
 
 /* -- Why Choose Us -- */
 const whyUs = [
@@ -202,6 +244,7 @@ function Scale({ className }: { className?: string }) {
 export default function RALicencePage() {
   return (
     <div className="bg-slate-50 min-h-screen">
+      <JsonLd data={raLicenseSchema} />
 
       {/* -- 1. Hero -- */}
       <section className="relative bg-[#1E4E8C] pt-28 pb-16 overflow-hidden">

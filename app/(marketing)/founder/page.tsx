@@ -1,18 +1,68 @@
 import React from 'react';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import { Linkedin } from 'lucide-react';
+import { constructMetadata } from '@/lib/seo';
+import JsonLd from '@/components/seo/JsonLd';
+import { siteConfig } from '@/config/site';
 
 const headerFont = Outfit({ subsets: ['latin'] });
 
-export const metadata = {
-  title: 'Meet Our Founder | Ajay K Pandey - Aj Legal Consultant',
-  description: 'Learn about Mr. Ajay K. Pandey, Founder & CEO of Aj Legal Consultant (I) Private Limited, and his mission to simplify compliance for businesses in India.',
-};
+export const metadata: Metadata = constructMetadata({
+  title: "Ajay K Pandey | Founder - AJ Legal Consultant",
+  description: "Mr. Ajay K. Pandey is the Founder & CEO of AJ Legal Consultant (I) Private Limited with 16+ years of experience in accounting, tax planning, and corporate legal compliance in India.",
+  url: "/founder",
+  image: "/Founder.jpeg",
+});
+
+const founderPersonSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Ajay K. Pandey",
+    "jobTitle": "Founder & CEO",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "AJ Legal Consultant (I) Private Limited",
+      "url": siteConfig.url
+    },
+    "url": `${siteConfig.url}/founder`,
+    "image": `${siteConfig.url}/Founder.jpeg`,
+    "sameAs": [
+      "https://www.linkedin.com/in/ajay-pandey-242355a5"
+    ],
+    "knowsAbout": [
+      "Corporate Legal Compliance",
+      "Accounting & Tax Planning",
+      "Recruiting Agent (RA) License Consultancy",
+      "Company Registration"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": siteConfig.url
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Founder Profile",
+        "item": `${siteConfig.url}/founder`
+      }
+    ]
+  }
+];
 
 export default function FounderPage() {
   return (
     <div className="bg-slate-50 min-h-screen py-16 sm:py-24">
+      <JsonLd data={founderPersonSchema} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Breadcrumb */}

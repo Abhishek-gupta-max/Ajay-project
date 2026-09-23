@@ -1,11 +1,13 @@
 import { MetadataRoute } from 'next'
+import { siteConfig } from '@/config/site'
+import serviceData from '@/config/serviceData'
 
-const BASE_URL = 'https://www.ajlegalconsultant.in'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url || 'https://ajlegalconsultant.in'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
 
-  // ── Static service pages (dedicated pages) ──
+  // ── Dedicated static service pages ──
   const dedicatedServicePages: MetadataRoute.Sitemap = [
     {
       url: `${BASE_URL}/services/ra-license`,
@@ -21,23 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  // ── Dynamic [slug] service pages ──
-  const slugServices = [
-    'private-limited-company',
-    'company-compliance',
-    'gst-registration',
-    'itr-filing',
-    'business-compliance',
-    'llp-registration',
-    'one-person-company',
-    'section-8-company',
-    'startup-india',
-    'trademark',
-    'fssai',
-    'roc-filing',
-    'income-tax-return',
-    'msme-registration',
-  ]
+  // ── All dynamic service pages from serviceData ──
+  const slugServices = Object.keys(serviceData)
 
   const slugServicePages: MetadataRoute.Sitemap = slugServices.map((slug) => ({
     url: `${BASE_URL}/services/${slug}`,
@@ -47,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   return [
-    // ── Core pages ──
+    // ── Core public pages ──
     {
       url: BASE_URL,
       lastModified: now,
@@ -55,16 +42,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
-      url: `${BASE_URL}/contact`,
+      url: `${BASE_URL}/about`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/about`,
+      url: `${BASE_URL}/founder`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/contact`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
     },
     {
       url: `${BASE_URL}/startup-services`,
@@ -79,7 +72,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
 
-    // ── Dedicated & dynamic service pages ──
+    // ── Service pages ──
     ...dedicatedServicePages,
     ...slugServicePages,
   ]

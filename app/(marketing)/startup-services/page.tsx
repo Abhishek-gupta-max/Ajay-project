@@ -1,10 +1,13 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import ServiceCard from '@/components/ui/ServiceCard';
+import { constructMetadata } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Startup Services | Aj Legal Consultant (I) Private Limited',
-  description: 'Explore comprehensive consultancy services for startups including incorporations, trademark, and compliance.',
-};
+export const metadata: Metadata = constructMetadata({
+  title: "Startup Business Registration & Compliance Services | AJ Legal Consultant",
+  description: "Explore comprehensive business registration and consultancy services for startups in India including Private Limited, LLP, DPIIT recognition, GST, and trademark.",
+  url: "/startup-services",
+});
 
 export default function StartupServicesPage() {
   const services = [

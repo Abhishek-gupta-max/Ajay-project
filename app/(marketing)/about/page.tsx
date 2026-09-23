@@ -1,4 +1,8 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { constructMetadata } from '@/lib/seo';
+import JsonLd from '@/components/seo/JsonLd';
+import { siteConfig } from '@/config/site';
 import { 
   Building2, 
   Target, 
@@ -17,14 +21,35 @@ import { Outfit } from 'next/font/google';
 
 const headerFont = Outfit({ subsets: ['latin'] });
 
-export const metadata = {
-  title: 'About Us | Aj Legal Consultant (I) Private Limited',
-  description: 'Aj Legal Consultant (I) Private Limited is a professionally managed legal, regulatory, and compliance consultancy organization providing end-to-end business solutions across India.',
+export const metadata: Metadata = constructMetadata({
+  title: "About AJ Legal Consultant (I) Private Limited | Compliance Experts",
+  description: "Learn about AJ Legal Consultant (I) Private Limited, a leading corporate compliance and legal consultancy firm providing company registration, tax advisory, and MEA RA licensing across India.",
+  url: "/about",
+});
+
+const aboutBreadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": siteConfig.url
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "About Us",
+      "item": `${siteConfig.url}/about`
+    }
+  ]
 };
 
 export default function AboutPage() {
   return (
     <div className="bg-slate-50 min-h-screen py-16 sm:py-24">
+      <JsonLd data={aboutBreadcrumbSchema} />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
